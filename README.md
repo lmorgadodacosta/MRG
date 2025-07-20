@@ -1,3 +1,3 @@
 # Mandarin Resource Grammar (MRG)
 
-This is some text
+Check out the [MRG Homepage](https://lmorgadodacosta.github.io/MRG/) for more information.
