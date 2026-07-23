@@ -1,0 +1,85 @@
+;;; -*- Mode: TDL; Coding: utf-8 -*-
+
+
+;; SSH 2015-04-30: reduplication of verbs
+;; e.g. 张三 哭哭 / 张三 喜欢喜欢
+;; This lexical rule places [ASPECT tentative] to the verb itself. 
+; "<ex>张三 哭哭
+;  <ex>张三 喜欢喜欢"
+
+
+
+; "Rule for reduplicated adjectives:
+
+; redup-olr :=
+; %suffix (* 々)
+; redup-lex-rule.
+
+
+
+;;; olr = orthography-changing lexical rule
+
+; redup-verb-olr :=
+; """
+; This rule will only apply to reduplicated verbs (which end in 々AA or 々ABAB, once they have been through chartmapping rules) and applies unto them the type constraints of redup-verb-lex-rule.
+; <ex>你 看看 。
+; <ex>你 看 看 。
+; <ex>我们 考虑考虑 。
+; <ex>我们 考虑 考虑 。
+; """
+; %suffix (* 々AA) (* 々ABAB)
+; redup-verb-lex-rule.
+
+redup-verb-olr :=
+%suffix (* 々AA) (* 々ABAB)
+redup-verb-lex-rule.
+
+
+
+; redup-adj-olr :=
+; """
+; This rule will only apply to reduplicated adjectives (which end in 々AA 々AABB or once they have been through chartmapping rules) and applies unto them the type constraints of redup-adj-lex-rule.
+; <ex>她 高高 。
+; <ex>她 高 高 。
+; <ex>她 漂漂亮亮 。
+; """
+; %suffix (* 々AA) (* 々AABB)
+; redup-adj-lex-rule.
+
+
+redup-adj-olr :=
+%suffix (* 々AA) (* 々AABB)
+redup-adj-lex-rule.
+
+
+
+;;; LMC: This way of dealing with 一下 is unnaceptable 
+tentative-x-olr :=
+%suffix (* 々看) (* 々) (* 一々) (* 一下)
+tentative-lex-rule.
+
+;This reduplication pattern indicates the action is over. Current grammar doesn't have TENSE information yet. KIV
+tentative-xl-x-olr :=
+%suffix (* 了一々) (* 了一下)
+tent-perf-lex-rule.
+
+abua-olr :=
+%suffix (* 不々) (* 没々)
+anota-lex-rule.
+
+
+;;_perf_aspect-suffix :=
+;;%suffix (* 了)
+;;_perf_aspect-lex-rule.
+
+
+;; SSH 2014-09-02: I changed this into a lexical item (着_dur in lexicon.tdl).
+; dur_aspect-suffix :=
+; %suffix (* 着)
+; dur_aspect-lex-rule.
+
+;; SSH 2014-09-02: The same item is included in lexicon.tdl (过_exp)
+; exp_aspect-suffix :=
+; %suffix (* 过)
+; exp_aspect-lex-rule.
+

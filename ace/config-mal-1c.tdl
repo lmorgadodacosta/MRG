@@ -1,0 +1,13 @@
+;;; -*- Mode: TDL; -*-
+;;; files to load
+
+grammar-top               := "../zhs-gram-mal-1c.tdl".
+parsing-roots             := root_strict_adj root_strict_vpc.
+preprocessor              := "../repp/1c.rpp".
+
+:begin :config.
+ :include "config.common".
+:end :config.
+
+
+

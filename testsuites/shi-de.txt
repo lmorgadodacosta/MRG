@@ -1,0 +1,36 @@
+Language: Mandarin Chinese (simplified)
+Language code: cmn
+Lines: orth translit gloss translat
+Author: Sanghoun Song, Bo Chen, Luis Morgado da Costa
+Date: 2014-09-04
+
+### focus on an adverb, intransitive verb
+Source: NTU compling
+Vetted: t
+Judgment: g
+Phenomena: shi...de
+我 是 昨天 来 的 。
+Wo3 shi4 zuo2tian1 lai2 de .
+I am yesterday come NOM .
+It was yesterday that I came.
+
+### focus on an adverb, transitive verb
+Source: NTU compling
+Vetted: t
+Judgment: g
+Phenomena: shi...de
+我 是 昨天 来 学校 的 。
+Wo3 shi4 zuo2tian1 lai2 xue2xiao4 de.
+I am yesterday come school NOM
+It was yesterday that I came to school.
+
+### This is another type of shi...de constrctions. In this type, 是 is a copula.
+Source: NTU compling
+Vetted: t
+Judgment: g
+Phenomena: shi...de
+电脑 是 我 的 。
+Dian4nao3 shi4 wo3 de .
+Computer is I NOM .
+The computer is mine.
+

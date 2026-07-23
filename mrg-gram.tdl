@@ -1,0 +1,120 @@
+;;; -*- Mode: TDL; Package: DISCO -*-
+;;;
+;;; $Id: pet.tdl,v 1.2 2008-05-23 01:44:21 sfd Exp $
+;;; 
+
+
+;================================================================================
+; MRG-GRAM.TDL
+; 
+; This file contains the organization of the grammar. It is read by ACE and other
+; engines to decide what files the grammar should load.
+;
+; The order with which we load files matters.
+; [???] Check exactly why/how. 
+;================================================================================
+
+
+
+;================================================================================
+; Lexical filtering:
+; it reduces the chart after lexical instantiation and the application of lexical
+; rules, right before we turn loose syntactic rules.
+;================================================================================
+:begin :instance :status lexical-filtering-rule.
+:include "lfr".
+:end :instance.
+
+
+;================================================================================
+; Types:
+; 
+;================================================================================
+:begin :type.
+:include "head-types".
+:include "matrix".
+:include "lextypes".
+:include "letypes".
+:include "mrg-types".
+:include "mtr".
+:include "tmt".
+:end :type.
+
+;================================================================================
+; Token mapping:
+; Used to manipulate the token lattice prior to lexical look-up
+;================================================================================
+:begin :instance :status token-mapping-rule.
+:include "tmr/prelude".
+:include "tmr/pos".
+;:include "tmr/pos-ipa".
+:include "tmr/redup".
+:include "tmr/finis".
+:include "tmr/ne1".
+:include "tmr/ne2".
+:end :instance.
+
+
+;================================================================================
+; 
+;================================================================================
+:begin :instance :status post-generation-mapping-rule.
+:include "tmr/post-generation".
+:end :instance.
+
+
+;================================================================================
+; grammar rules and lexical rules (instances of status rule)
+;================================================================================
+:begin :instance :status rule.
+:include "mrg-rules".
+:end :instance.
+
+
+;================================================================================
+; Lexical Rules
+; Lexical and Inflectional rules 
+;================================================================================
+:begin :instance :status lex-rule.
+:include "lrules".
+:include "irules".
+:end :instance.
+
+
+;================================================================================
+; Lexicon Entries:
+; Instances of status lex-entry or generic-lex-entry
+;================================================================================
+:begin :instance :status lex-entry.
+:include "lex-base".
+:include "lex-symbols".
+:include "lex-classifiers".
+:include "lex-numbers".
+:include "lexicon".
+:include "lexicon-core".
+:end :instance.
+
+
+;================================================================================
+; 
+;================================================================================
+:begin :instance :status generic-lex-entry.
+:include "gle".
+:end :instance.
+
+
+;================================================================================
+; parse-tree labels (instances)
+;================================================================================
+:begin :instance.
+:include "labels".
+:end :instance.
+
+
+;================================================================================
+; start symbols of the grammar (instances)
+; LMC: check how this interacts with ACE's root definitions; is it redundant? 
+;================================================================================
+:begin :instance.
+:include "roots".
+:end :instance.

@@ -1,0 +1,14 @@
+;===============================================================================
+; LMC 2020-02-13
+;
+;
+;  this is the instantiation of the rule  
+;  the type name should appear in the parse chart
+;
+;
+;
+;===============================================================================
+
+mal_np-as-vp := mal-np-as-vp-phrase. 
+
+cl-np-pred := cl-np-pred-phrase.

@@ -1,0 +1,314 @@
+;;; -*- Mode: TDL; Coding: utf-8 -*-
+
+;===============================================================================
+; LMC 2020-02-13
+;
+;
+; These are types (both rules and lexical) for the educational zhong.
+;
+; it has the types that will be instantiated by mal-lex and mal-rules.
+; if it gets bigger in the future, we might want to split it into 
+; mal-lextype and mal-ruletypes
+;
+;===============================================================================
+
+
+
+
+;===============================================================================
+; REDEFINITION OF EXISTING TYPES: 
+;===============================================================================
+
+; a_-_pred_le :+  [SYNSEM.LOCAL.CAT.VAL.SUBJ.FIRST.LOCAL.CAT.HEAD noun]
+; """
+; this is the lexical type for predicative adjectives, and we are constraining it 
+; to require only noun subjects. This might be enough for LVL1, must check.
+; In fact this was too restrictive. Since there are sentences like:
+; 学习 汉语 很 有意思
+; """
+; .
+
+
+
+;===============================================================================
+; NEW TYPES: 
+;===============================================================================
+mal-qpart-lex-item := spart-lex-item & nonque-item &
+"""
+This is a copy of qpart-lex-item (sentence final particle), that changed 
+[NON-LOCAL.QUE to 1-dlist]. This change is requirering that exacly 1 question 
+word be included in the sentence before this particle can attach.  
+The original [NON-LOCAL.QUE 0-dlist] meant that the sentence had zero question 
+words embedded anywhere in the sentence.
+
+A-NOT-A also uses QUE, which means that setting QUE to non-empty should be enough.
+
+
+e.g. 'your mom who went to the store to buy a book bought WHICH book?' 
+This is not really English, but shows what this non-locality allows). 
+Nevertheless, questions should always use this NON-LOCAL.QUE. If there is a 
+question word, then the value of this dlist should be the index of that 
+question word (which we can later use to try to point to which question word 
+was already used). So, if we don't constrain NON-LOCAL.QUE to a 0-dlist, 
+(meaning that it can have one or more question words) then ma will be able to 
+attach to that sentence. But it must be constrained to either a non-empty list 
+or to 1, otherwise we get good sentences (that are not really questions).
+
+This will enable the use of mal-吗-le even after the sentence is already 
+a question.
+"""
+  [ STYLE robust,
+    SYNSEM [ SPART ma,
+             PUNCTUATED -,
+	     LOCAL [ CAT.VAL.COMPS < [ SPART not-ma,
+                                       LOCAL.CAT.VAL [SPR < >,
+						      SUBJ < >],
+                                       NON-LOCAL [ QUE 1-dlist,
+						   SLASH 0-dlist] ] >, 
+		     CONT.HOOK.INDEX.SF ques ] ] ].
+
+mal_x_-_qpart_le := mal-qpart-lex-item.
+
+
+mal_raising_adj_cop :=  no-rels-hcons-lex-item & basic-two-arg-no-hcons & basic-icons-lex-item
+		   & aspect-rule-dtr & verb-no-spr-item & nonque-item &
+"""
+The COMP is marked as [OPT -] to stop spurious ambiguity.
+"""
+[ SYNSEM [ LOCAL [ CAT [HEAD verb & [COP +,
+				     EMPTY -,
+				     AUX -],
+			VAL [ SUBJ < #subj >,
+			      COMPS < #comp >] ],
+		   CONT.HOOK.CLAUSE-KEY #clause ],
+	   NON-LOCAL.SLASH 0-dlist,
+	   LKEYS.KEYREL [ ARG1 #ltop,
+			  ARG2 #ind2 ] ],
+  ARG-ST < [ LOCAL [ CAT [ HEAD noun,
+			   VAL [ SUBJ < >,
+				 COMPS < > ] ],
+		     CONT.HOOK [LTOP #ltop,
+				CLAUSE-KEY #clause] ] ],
+	   #comp &
+	   [ OPT - ,
+	     LOCAL [ CAT [ VAL [ SUBJ < #subj >,
+				 SPR olist,
+				 COMPS < > ],
+			   HEAD adj ],
+		     CONT.HOOK [ INDEX #ind2,
+				 CLAUSE-KEY #clause ] ] ] > ].
+
+mal_v_adj_cop_le := mal_raising_adj_cop
+"""
+This is used for adjectival sentences to allow a copula.
+<mex>我 是 漂亮 。
+<nex>我 是 学生 。
+"""
+.
+
+
+mal_neg_不+有_le := neg-adv-lex & nonque-item &
+"""
+Mal type for for 不, which allows 不+有.
+"""
+  [ SYNSEM.LOCAL.CAT.HEAD.MOD < [ LOCAL [ CONT.HOOK.INDEX.E.ASPECT non-aspect, 
+					  CAT.HEAD [EXISTV +,
+						    CHAR [ FCHAR "有", LENGTH one] ] ] ] > ].
+
+
+mal_presubj_也_le := scop-adv-s-prehd_le &
+"""
+This is a type designed for misuse of 也 -- allowing it to be placed before the suject (i.e. as sentencial adverb); This essentially should mark the wrong position of 也 within a clause.
+
+FIXME: it competes with 也_r_1 in the correct position (for extracted subjects); it needs to be restricted further so this can't appear in the correct position (i.e. restrict to a VP WITH satisfied subject);
+With scop-adv-s-lex (now required an empty SUBJ), this almost works, but it still misfires first extracting the subject and then filling it. I need to block the subject extraction. 
+
+
+<mex> 我 学 工程 ， 也 我 学 中文 。
+<mex> 也 我 学 中文 。
+<mex> 也 我 很 高 。
+
+
+
+Added [VAL.SPEC < >] to block this from becoming a specifier to degree modifiers.
+
+"""
+  [ SYNSEM.LOCAL.CAT [ VAL.SPEC < > ] ].
+
+
+mal-也-postv-precomp-lex := basic-scopal-adverb-lex &
+"""
+This entry is specific to catch post-verbal 也. Currently only verbs seem to be a problem.
+[COMPS 1-plus-list] on the MOD is to require it comes become the verbs take up their complements, but some verbs can have more than one complement.
+<mex> 我 是 也 新加坡人 。
+"""
+  [ SYNSEM.LOCAL.CAT [ HEAD.MOD < [ LOCAL.CAT [ HEAD verb ] ] >,
+		       VAL.COMPS < >,
+		       POSTHEAD + ] ].
+
+
+
+
+mal-几-wh-det-nocls_le := wh-determiner-nocls-lex
+"""
+This entry is specific to allow 几 to behave as an interrogative determiner without the use of classifiers. This is ungrammatical, since 几 should always require the use of classifiers.
+<mex> 你 有 几 英国 同学 ？
+""".
+
+
+
+;===============================================================================
+; NEW RULES: 
+;===============================================================================
+
+; mal-np-as-vp-phrase := unary-phrase & verb-no-spr-item &
+; """
+; This mal-rule is used to pump  NPs into subject-taking VPs. It introduces a  dummy 是_v_cop relation, which would be missing between the two NPs. This is used to catch the error in sentences like:
+; <mex> 她 学生 。
+
+; Admittedly, this rule causes some havoc around amgibuity, since most NPs were trying to be pumped into VPs. We're continuing to add some restrictions to curb ambiguity.
+
+; Added [ EMPTY + ] on parent node to signal this VP is not a normal headed phrase (i.e.  there no verb). This might be useful, for example to prevent verb-derivational rules from applied to this case (where there is no verb). e.g. reduplication of verb, V-Not-V.
+
+; Inheriting from verb-no-spr-item restricts the verb phrase being created form  taking degree modifiers.
+
+; Added [OPT -] to the created pumped VP's subject so it doesn't occur when there  is no NP to be taken as subject (this should reduce parse ambiguity considerably).
+
+; The NP argument is set to [PUNCTUATED na-or-- ] to force punctuation to attach higher.
+
+; Added [ SORT common-s ] to the original NP's CONT.HOOK.INDEX to block pronouns and proper nouns from being pumped into VPs. This allows us to catch common errors like:
+; <mex> 她 学生 。
+; But not:
+; <nex> 学生 她 。
+; But gaining control over ambiguity.
+
+; olist = optional or filled
+
+; We also need to add [COORD -] on the daughter to block the midway of a  coordination (e.g. ', 学生')  to be pumped into a VP. Complete/full coordinations should be COORD -, so they would be able to be pumped.
+
+; Added [EXISTV -] so this pumped VP is not treated as 有.
+; """
+; [ SYNSEM [ LOCAL [ CAT [ HEAD verb & [ EXISTV -,
+; 				       EMPTY +,
+; 				       COP +],
+; 			 VAL [ SUBJ < [OPT -,
+; 				       LOCAL [ CAT [ HEAD noun,
+; 						     VAL [ SUBJ < >,
+; 							   SPR < >,
+; 							   COMPS < > ] ],
+; 					       CONT.HOOK.INDEX #arg1 ] ] >,
+; 			       COMPS < > ],
+; 			 POSTHEAD +,
+; 			 NONSUBJ #ns ],
+; 		   COORD -,
+; 		   CONT.HOOK #hook ],
+; 	   NON-LOCAL #nonlocal ],
+;   ARGS < [ SYNSEM [ BOUND na-or--,
+; 		    LOCAL [ CAT [ HEAD noun & [EMPTY -],
+; 				  VAL [ SUBJ < >,
+; 					SPR < >,
+; 					COMPS < > ],
+; 				  NONSUBJ #ns ],
+; 			    COORD -,
+; 			    CONT.HOOK.INDEX #arg2 & [ SORT common-s ]  ],
+; 		    NON-LOCAL #nonlocal,
+; 		    PUNCTUATED na-or-- ] ] >,
+;   C-CONT [ RELS <! arg12-ev-relation &
+; 		 [ PRED "是_v_cop_rel",
+; 		   LBL #ltop,
+; 		   ARG0 #index,
+; 		   ARG1 #arg1,
+; 		   ARG2 #arg2 ] !>,
+; 	   HCONS <! !>,
+; 	   ICONS <! !>,
+; 	   HOOK #hook &
+; 		[ LTOP #ltop,
+; 		  INDEX #index ] ] ].
+
+
+
+
+
+
+super-np-as-vp-phrase := unary-phrase & verb-no-spr-item &
+"""
+This mal-rule is used to pump  NPs into subject-taking VPs. It introduces a  dummy 是_v_cop relation, which would be missing between the two NPs. This is used to catch the error in sentences like:
+<mex> 她 学生 。
+
+Admittedly, this rule causes some havoc around amgibuity, since most NPs were trying to be pumped into VPs. We're continuing to add some restrictions to curb ambiguity.
+
+Added [ EMPTY + ] on parent node to signal this VP is not a normal headed phrase (i.e.  there no verb). This might be useful, for example to prevent verb-derivational rules from applied to this case (where there is no verb). e.g. reduplication of verb, V-Not-V.
+
+Inheriting from verb-no-spr-item restricts the verb phrase being created form  taking degree modifiers.
+
+Added [OPT -] to the created pumped VP's subject so it doesn't occur when there  is no NP to be taken as subject (this should reduce parse ambiguity considerably).
+
+The NP argument is set to [PUNCTUATED na-or-- ] to force punctuation to attach higher.
+
+Added [ SORT common-s ] to the original NP's CONT.HOOK.INDEX to block pronouns and proper nouns from being pumped into VPs. This allows us to catch common errors like:
+<mex> 她 学生 。
+But not:
+<nex> 学生 她 。
+But gaining control over ambiguity.
+
+olist = optional or filled
+
+We also need to add [COORD -] on the daughter to block the midway of a  coordination (e.g. ', 学生')  to be pumped into a VP. Complete/full coordinations should be COORD -, so they would be able to be pumped.
+
+Added [EXISTV -] so this pumped VP is not treated as 有.
+"""
+[ SYNSEM [ LOCAL [ CAT [ HEAD verb & [ LZG no-lzg-asp,
+				       EXISTV -,
+				       EMPTY +,
+				       COP +],
+			 VAL [ SUBJ < [OPT -,
+				       LOCAL [ CAT [ HEAD noun,
+						     VAL [ SUBJ < >,
+							   SPR < >,
+							   COMPS < > ] ],
+					       CONT.HOOK.INDEX #arg1 ] ] >,
+			       COMPS < > ],
+			 POSTHEAD +,
+			 NONSUBJ #ns ],
+		   COORD -,
+		   CONT.HOOK #hook ],
+	   NON-LOCAL #nonlocal ],
+  ARGS < [ SYNSEM [ BOUND na-or--,
+		    LOCAL [ CAT [ HEAD noun,
+				  VAL [ SUBJ < >,
+					COMPS < > ],
+				  NONSUBJ #ns ],
+			    COORD -,
+			    CONT.HOOK.INDEX #arg2 & [ SORT common-s ]  ],
+		    NON-LOCAL #nonlocal,
+		    PUNCTUATED na-or-- ] ] >,
+  C-CONT [ RELS <! arg12-ev-relation &
+		 [ PRED "是_v_cop_rel",
+		   LBL #ltop,
+		   ARG0 #index,
+		   ARG1 #arg1,
+		   ARG2 #arg2 ] !>,
+	   HCONS <! !>,
+	   ICONS <! !>,
+	   HOOK #hook &
+		[ LTOP #ltop,
+		  INDEX #index ] ] ].
+
+
+
+mal-np-as-vp-phrase := super-np-as-vp-phrase &
+"""
+"""
+  [ ARGS < [ SYNSEM [ CLASSIF -,
+		      LOCAL.CAT [ HEAD [EMPTY - ],
+				  VAL [ SPR < > ] ] ] ] > ].
+
+
+
+cl-np-pred-phrase := super-np-as-vp-phrase &
+"""
+
+[SPR < >] The SPR of a classifer is the numeral. This means we should probably also request it to be empty. 
+"""
+  [ ARGS < [ SYNSEM [ BARE -,
+		      CLASSIF +] ] > ].

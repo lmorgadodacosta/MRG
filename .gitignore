@@ -1,0 +1,18 @@
+# -*- mode: gitignore; -*-
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+.DS_Store
+
+# Compile Grammar images
+*.dat
+*.grm
+*.pdf
+
+# Maybe add TSDB results?
+# /tsdb/current
