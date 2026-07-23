@@ -1,128 +1,160 @@
 <!doctype html>
 <html lang="en">
-  <head>
-
-    <!-- Required meta tags -->
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="Luis Morgado da Costa">
+    <meta name="author" content="CLTL VU Amsterdam">
     <link rel="icon" href="">
 
-    <title>MRG</title>
+    <title>Mandarin Resource Grammar (MRG)</title>
 
-    <!-- Font Awesome CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    
-    <!-- Bootstrap CSS -->
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    
-    <!-- Custom styles for this template -->
+
     <link href="/static/sticky-footer-navbar.css" rel="stylesheet">
 
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
-    
-
-  </head>
-  <body>
-
+    <style>
+        span.nospace {
+            letter-spacing: -18px;
+        }
+        div.justify-text {
+            text-align: justify;
+            text-justify: inter-word;
+        }
+        .xsmall {
+            font-size: 0.60rem; /* 12px if base is 16px */
+        }
+        /* Custom styling to ensure footer behaves nicely if pages are short */
+        html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex: 1 0 auto;
+        }
+        footer {
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
     <header>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-      <a class="navbar-brand" href="/">Mandarin Resource Grammar</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        <a class="navbar-brand" href="#home" onclick="showSection('home')">MRG</a>
 
-      <div class="collapse navbar-collapse" id="navbarsExample04">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-          </li>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-<!-- 	  <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="" id="dropdown-cv" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Me</a>
-            <div class="dropdown-menu" aria-labelledby="dropdown-cv">
-              <a class="dropdown-item" href="/cv#download">CV</a>
-              <a class="dropdown-item" href="/cv#pubs">Peer-Reviewed Publications</a>
-              <a class="dropdown-item" href="/cv#confs">Invited / Conference Presentations</a>
-              <a class="dropdown-item" href="/cv#service">Service to Research Community</a>
-              <a class="dropdown-item" href="/cv#other">Other</a>
-              <a class="dropdown-item" href="/world">Travels</a>
-            </div>
-          </li>
- -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="" id="dropdown-projs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Projects</a>
-            <div class="dropdown-menu" aria-labelledby="dropdown-projs">
-              <a class="dropdown-item" href="https://www.luismc.com/msca-chill">Chinese Intelligent Language Learning (MSCA-CHILL)</a>
-            </div>
-          </li>
+        <div class="collapse navbar-collapse" id="navbarsExample04">
+            <ul class="navbar-nav mr-auto">
+
+	        <li class="nav-item dropdown">
+		    <a class="navbar-brand nav-link dropdown-toggle" href="" id="dropdown-instructions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Quick Start</a>
+		    <div class="dropdown-menu" aria-labelledby="dropdown-instructions">
+		      <a class="dropdown-item" href="#compiling-mrg" onclick="showSection('using-mrg')">Compiling the MRG</a>
+		      <a class="dropdown-item" href="#compiling-mrg" onclick="showSection('using-mrg')">Using the MRG</a>
+		    </div>
+		</li>
 
 
-	  <li class="nav-item">
-            <a class="nav-link" href="/">Other</a>
-          </li>
+		<li class="nav-item dropdown">
+  		    <a class="navbar-brand nav-link dropdown-toggle" href="" id="dropdown-instructions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Linguistic Notes</a>
+		    <div class="dropdown-menu" aria-labelledby="dropdown-instructions">
+		      <a class="dropdown-item" href="#notes" onclick="showSection('notes')">Linguistic Coverage</a>
+		      <a class="dropdown-item" href="#notes" onclick="showSection('notes')">Notes on Implementatio</a>
+		    </div>
+		</li>
 
-	  <li class="nav-item">
-            <a class="nav-link" href="/">Publications</a>
-          </li>
-	</ul>
-      </div>
+		<li class="nav-item dropdown">
+		    <a class="navbar-brand nav-link dropdown-toggle" href="" id="dropdown-instructions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ToDos</a>
+		    <div class="dropdown-menu" aria-labelledby="dropdown-instructions">
+		      <a class="dropdown-item" href="#notes" onclick="showSection('notes')">Linguistic Coverage</a>
+		      <a class="dropdown-item" href="#notes" onclick="showSection('notes')">Notes on Implementatio</a>
+		    </div>
+		</li>
+	      
+            </ul>
+        </div>
+	
     </nav>
     </header>
-    
-    <!-- Begin page content -->
+
     <main role="main" class="container">
-      
+        <br>
 
-<style>
-div {
-  text-align: justify;
-  text-justify: inter-word;
-}
-</style> 
+        <div id="content-dynamic">
+
+            <section id="home" class="content-section justify-text">
+
+                <h2>Mandarin Resource Grammar (MRG)</h2>
+                <hr>
+
+                Welcome to the homepage of the Mandarin Resource Grammar<br><br>
+                <br>
+                <br>
+                <h4>More information soon to come!</h4>
+            </section>
+
+            <section id="using-mrg" class="content-section justify-text d-none">
+                <h3>Using the MRG</h3>
+                <br>
+                <hr>
+
+            </section>
+
+            <section id="notes" class="content-section justify-text d-none">
+                <h3>Notes</h3>
+                <p>Notes on coverage and implementation can be added here.</p>
+            </section>
+
+            <section id="todos" class="content-section justify-text d-none">
+                <h3>To Dos</h3>
+                <p>Details on ongoing and future planned expansion will be added here.</p>
+            </section>
 
 
-<h3>Welcome!</h3>
+        </div>
 
-<div>
-Maintained by Xxx.
-
-	
-	
-</div>
-You can find me in some of the usual places: &nbsp;&nbsp;<span class="text-muted">
-  <a href="https://github.com/lmorgadodacosta"><i class="fa fa-github" aria-hidden="true"></i></a>&nbsp;&nbsp;
-  <a href="https://nanyang.academia.edu/LuisMorgadodaCosta/"><b>A</b></a>&nbsp;&nbsp;
-  <a href="https://www.linkedin.com/in/lu%C3%ADs-morgado-da-costa-52976794/"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a>&nbsp;&nbsp;
-  <!-- <a href="https://www.facebook.com/luis.m.dacosta.3"> <i class="fa fa-facebook-square" aria-hidden="true"></i></a>&nbsp;&nbsp; -->
-  <a href="https://twitter.com/lmorgadodacosta"> <i class="fa fa-twitter-square" ></i></a>&nbsp;&nbsp;
-</span>
-<br><br>
- 
+        <br>
+        <hr>
+        <div class="container text-muted xsmall">
+            <span> Maintainer: <a href="https://www.luismc.com/" target="_blank">Luis Morgado da Costa</a></span><br>
+            <span> Last modified: July 2026</span>
+        </div>
+        <br>
     </main>
 
-    <footer class="footer">
-      <div class="container">
-        <span class="text-muted">
-	  <!-- <a href="https://github.com/lmorgadodacosta"><i class="fa fa-github" aria-hidden="true"></i></a>&nbsp;&nbsp; -->
-	  <!-- <a href="https://nanyang.academia.edu/LuisMorgadodaCosta/"><b>A</b></a>&nbsp;&nbsp; -->
-	  <!-- <a href="https://www.linkedin.com/in/lu%C3%ADs-morgado-da-costa-52976794/"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a>&nbsp;&nbsp; -->
-	  <!-- <a href="https://www.facebook.com/luis.m.dacosta.3"> <i class="fa fa-facebook-square" aria-hidden="true"></i></a>&nbsp;&nbsp; -->
-	  <sub>lmo<span class="nospace"> </span>rgad<span class="nospace"> </span>o.dac<span class="nospace"> </span>osta<i class="fa fa-at" aria-hidden="true"></i>gmail.com</sub>
-	  <span class="span3 pull-right"><sub>Last modified: February 2022</sub></span>
-	</span>
-      </div>
-    </footer>
 
-    
-  </body>
+    <script type="text/javascript">
+        function showSection(sectionId) {
+            // Hide all content sections by adding Bootstrap's 'd-none' utility class
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.add('d-none');
+            });
+
+            // Reveal the targeted section by removing 'd-none'
+            const activeSection = document.getElementById(sectionId);
+            if (activeSection) {
+                activeSection.classList.remove('d-none');
+            }
+
+            // Optional: smooth scroll back up to the top of the content context
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Clean up redundant scripts conflict from original code:
+        // (Removed conflicting 1.4.2 jQuery script link from the head section to keep the standard 3.2.1)
+    </script>
+</body>
 </html>
